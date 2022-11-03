@@ -1,15 +1,14 @@
-package com.six.challenge.tradingplatform.model;
+package com.six.challenge.tradingplatform.model.database;
 
+import com.six.challenge.tradingplatform.model.api.v1.SecurityDto;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-public class Security {
+@Table(name = "SECURITY")
+public class SecurityDao {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -19,9 +18,9 @@ public class Security {
     @Column(unique=true)
     private String name;
 
-    Security() {}
+    SecurityDao() {}
 
-    Security(String name) {
+    SecurityDao(String name) {
         this.name = name;
     }
 
@@ -41,11 +40,9 @@ public class Security {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Security {" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public SecurityDto toDto() {
+        return new SecurityDto(
+            this.getId(), this.getName()
+        );
     }
 }
