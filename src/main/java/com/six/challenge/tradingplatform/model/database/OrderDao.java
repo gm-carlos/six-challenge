@@ -1,6 +1,6 @@
 package com.six.challenge.tradingplatform.model.database;
 
-import com.six.challenge.tradingplatform.model.api.v1.OrderOutputDto;
+import com.six.challenge.tradingplatform.model.api.v1.order.OrderOutputDto;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 

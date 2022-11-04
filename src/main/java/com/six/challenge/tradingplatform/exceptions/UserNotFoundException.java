@@ -1,16 +1,16 @@
 package com.six.challenge.tradingplatform.exceptions;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends RuntimeException {
+
+public class UserNotFoundException extends ResponseStatusException {
 
     public UserNotFoundException(UUID id) {
-        super("Could not find user with id " + id);
+        super(HttpStatus.NOT_FOUND, "Could not find user with id " + id);
     }
     public UserNotFoundException(String name) {
-        super("Could not find user with name " + name);
+        super(HttpStatus.NOT_FOUND, "Could not find user with name " + name);
     }
 }

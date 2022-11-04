@@ -1,8 +1,9 @@
 package com.six.challenge.tradingplatform.controller.v1;
 
 import com.six.challenge.tradingplatform.constants.Endpoints;
-import com.six.challenge.tradingplatform.model.api.v1.UserInputDto;
-import com.six.challenge.tradingplatform.model.api.v1.UserOutputDto;
+import com.six.challenge.tradingplatform.model.api.v1.user.UserInputDto;
+import com.six.challenge.tradingplatform.model.api.v1.user.UserOutputDto;
+import com.six.challenge.tradingplatform.model.api.v1.user.UserUpdateInputDto;
 import com.six.challenge.tradingplatform.model.database.UserDao;
 import com.six.challenge.tradingplatform.exceptions.UserNotFoundException;
 import com.six.challenge.tradingplatform.repository.UserJpaRepository;
@@ -47,8 +48,12 @@ class UserController {
     }
 
     @PostMapping(Endpoints.UPDATE)
-    UserOutputDto update(UserInputDto userInput) {
-        return repository.save(userInput.toDao()).toDto();
+    UserOutputDto update(UserUpdateInputDto userInput) {
+        UserDao user = repository.findById(userInput.getId()).orElseThrow(
+                () -> new UserNotFoundException(userInput.getName()));
+        user.setName(userInput.getName());
+        user.setPassword(userInput.getPassword());
+        return repository.save(user).toDto();
     }
 
 }

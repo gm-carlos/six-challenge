@@ -1,14 +1,15 @@
-package com.six.challenge.tradingplatform.model.api.v1;
+package com.six.challenge.tradingplatform.model.api.v1.security;
 
 import com.six.challenge.tradingplatform.model.database.SecurityDao;
-
-import java.util.UUID;
 
 public class SecurityInputDto {
 
     private String name;
 
-    public SecurityInputDto(UUID id, String name) {
+    SecurityInputDto() {
+    }
+
+    public SecurityInputDto(String name) {
         this.name = name;
     }
 

@@ -3,8 +3,8 @@ package com.six.challenge.tradingplatform.controller.v1;
 import com.six.challenge.tradingplatform.constants.Endpoints;
 import com.six.challenge.tradingplatform.exceptions.InvalidOrderException;
 import com.six.challenge.tradingplatform.exceptions.UserNotFoundException;
-import com.six.challenge.tradingplatform.model.api.v1.OrderInputDto;
-import com.six.challenge.tradingplatform.model.api.v1.OrderOutputDto;
+import com.six.challenge.tradingplatform.model.api.v1.order.OrderInputDto;
+import com.six.challenge.tradingplatform.model.api.v1.order.OrderOutputDto;
 import com.six.challenge.tradingplatform.model.database.BuyOrderDao;
 import com.six.challenge.tradingplatform.model.database.OrderDao;
 import com.six.challenge.tradingplatform.model.database.OrderType;
@@ -94,7 +94,7 @@ public class OrderController {
                 errors.add(violation.getPropertyPath().toString() + ": " +
                         violation.getMessage());
             }
-            throw new InvalidOrderException(String.join(",", errors));
+            throw new InvalidOrderException(String.join(", ", errors));
         }
     }
 }

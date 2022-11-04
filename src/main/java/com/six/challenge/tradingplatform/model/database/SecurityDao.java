@@ -1,7 +1,7 @@
 package com.six.challenge.tradingplatform.model.database;
 
 import com.six.challenge.tradingplatform.constants.Tables;
-import com.six.challenge.tradingplatform.model.api.v1.SecurityOutputDto;
+import com.six.challenge.tradingplatform.model.api.v1.security.SecurityOutputDto;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 

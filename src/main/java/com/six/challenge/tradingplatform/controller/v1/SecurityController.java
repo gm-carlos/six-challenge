@@ -2,8 +2,9 @@ package com.six.challenge.tradingplatform.controller.v1;
 
 import com.six.challenge.tradingplatform.constants.Endpoints;
 import com.six.challenge.tradingplatform.exceptions.SecurityNotFoundException;
-import com.six.challenge.tradingplatform.model.api.v1.SecurityInputDto;
-import com.six.challenge.tradingplatform.model.api.v1.SecurityOutputDto;
+import com.six.challenge.tradingplatform.model.api.v1.security.SecurityInputDto;
+import com.six.challenge.tradingplatform.model.api.v1.security.SecurityOutputDto;
+import com.six.challenge.tradingplatform.model.api.v1.security.SecurityUpdateInputDto;
 import com.six.challenge.tradingplatform.model.database.SecurityDao;
 import com.six.challenge.tradingplatform.repository.SecurityJpaRepository;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,10 @@ class SecurityController {
     }
 
     @PostMapping(Endpoints.UPDATE)
-    SecurityOutputDto update(SecurityDao security) {
+    SecurityOutputDto update(SecurityUpdateInputDto securityInput) {
+        SecurityDao security = repository.findById(securityInput.getId()).orElseThrow(
+                () -> new SecurityNotFoundException(securityInput.getId()));
+        security.setName(securityInput.getName());
         return repository.save(security).toDto();
     }
 }

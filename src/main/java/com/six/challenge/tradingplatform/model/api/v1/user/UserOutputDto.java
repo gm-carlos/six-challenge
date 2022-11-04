@@ -1,4 +1,4 @@
-package com.six.challenge.tradingplatform.model.api.v1;
+package com.six.challenge.tradingplatform.model.api.v1.user;
 
 import java.util.UUID;
 
