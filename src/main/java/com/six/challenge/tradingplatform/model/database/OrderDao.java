@@ -1,9 +1,11 @@
 package com.six.challenge.tradingplatform.model.database;
 
-import com.six.challenge.tradingplatform.model.api.v1.OrderDto;
+import com.six.challenge.tradingplatform.model.api.v1.OrderOutputDto;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.UUID;
 
 @Entity
@@ -11,25 +13,31 @@ import java.util.UUID;
 public abstract class OrderDao {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)")
+    @GeneratedValue(generator = "uuid4")
+    @GenericGenerator(name = "UUID", strategy = "uuid4")
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
-
     private UUID userId;
     private UUID securityId;
-    private UUID fulfilledId;
+    private boolean fulfilled;
+    @Positive(message = "The value must be positive")
+    private Double price;
+    @Positive(message = "The value must be positive")
     private Long quantity;
-    @Transient
+    private Long currentQuantity;
     private OrderType type;
 
     public OrderDao() {}
 
-    public OrderDao(UUID userId, UUID securityId, UUID fulfilledId, Long quantity) {
+    public OrderDao(UUID userId, UUID securityId, Double price, Long quantity, OrderType type) {
         this.userId = userId;
         this.securityId = securityId;
-        this.fulfilledId = fulfilledId;
+        this.fulfilled = false;
+        this.price = price;
         this.quantity = quantity;
+        this.currentQuantity = quantity;
+        this.type = type;
     }
 
     public UUID getId() {
@@ -52,12 +60,20 @@ public abstract class OrderDao {
         this.securityId = securityId;
     }
 
-    public UUID getFulfilledId() {
-        return fulfilledId;
+    public boolean isFulfilled() {
+        return fulfilled;
     }
 
-    public void setFulfilledId(UUID fulfilledId) {
-        this.fulfilledId = fulfilledId;
+    public void setFulfilled(boolean fulfilledId) {
+        this.fulfilled = fulfilledId;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Long getQuantity() {
@@ -76,25 +92,23 @@ public abstract class OrderDao {
         this.type = type;
     }
 
-    public OrderDto toDto() {
-        return new OrderDto(
+    public Long getCurrentQuantity() {
+        return currentQuantity;
+    }
+
+    public void setCurrentQuantity(Long currentQuantity) {
+        this.currentQuantity = currentQuantity;
+    }
+
+    public OrderOutputDto toDto() {
+        return new OrderOutputDto(
                 this.getId(),
                 this.getUserId(),
                 this.getSecurityId(),
-                this.getFulfilledId(),
+                this.isFulfilled(),
+                this.getPrice(),
                 this.getQuantity(),
+                this.getCurrentQuantity(),
                 this.getType());
-    }
-
-    @Override
-    public String toString() {
-        return "SellOrder{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", securityId=" + securityId +
-                ", fulfilledId=" + fulfilledId +
-                ", quantity=" + quantity +
-                ", type=" + type +
-                '}';
     }
 }

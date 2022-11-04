@@ -1,5 +1,6 @@
 package com.six.challenge.tradingplatform.model.database;
 
+import com.six.challenge.tradingplatform.constants.Tables;
 import com.six.challenge.tradingplatform.model.api.v1.UserOutputDto;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TRADING_USERS")
+@Table(name = Tables.USER)
 public class UserDao {
 
     @Id
