@@ -1,8 +1,6 @@
 package com.six.challenge.tradingplatform.model.api.v1.order;
 
-import com.six.challenge.tradingplatform.model.database.BuyOrderDao;
-import com.six.challenge.tradingplatform.model.database.OrderType;
-import com.six.challenge.tradingplatform.model.database.SellOrderDao;
+import com.six.challenge.tradingplatform.model.database.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.UUID;
@@ -65,13 +63,13 @@ public class OrderInputDto {
         this.type = type;
     }
 
-    public BuyOrderDao toBuyOrderDao() {
+    public BuyOrderDao toBuyOrderDao(UserDao user, SecurityDao security) {
         return new BuyOrderDao(
-                this.getUserId(), this.getSecurityId(), this.getPrice(), this.getQuantity());
+                user, security, this.getPrice(), this.getQuantity());
     }
 
-    public SellOrderDao toSellOrderDao() {
+    public SellOrderDao toSellOrderDao(UserDao user, SecurityDao security) {
         return new SellOrderDao(
-                this.getUserId(), this.getSecurityId(), this.getPrice(), this.getQuantity());
+                user, security, this.getPrice(), this.getQuantity());
     }
 }

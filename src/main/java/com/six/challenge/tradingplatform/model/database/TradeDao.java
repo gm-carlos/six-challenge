@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -17,21 +18,18 @@ public class TradeDao {
     @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
-
     private UUID sellOrderId;
-
     private UUID buyOrderId;
-
     private Double price;
-
     private Long quantity;
-
+    private Date createdAt;
 
     public TradeDao(UUID sellOrderId, UUID buyOrderId, Double price, Long quantity) {
         this.sellOrderId = sellOrderId;
         this.buyOrderId = buyOrderId;
         this.price = price;
         this.quantity = quantity;
+        this.createdAt = new Date();
     }
 
     public UUID getId() {
@@ -72,5 +70,9 @@ public class TradeDao {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }

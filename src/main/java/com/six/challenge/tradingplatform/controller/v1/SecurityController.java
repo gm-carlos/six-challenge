@@ -2,11 +2,15 @@ package com.six.challenge.tradingplatform.controller.v1;
 
 import com.six.challenge.tradingplatform.constants.Endpoints;
 import com.six.challenge.tradingplatform.exceptions.SecurityNotFoundException;
+import com.six.challenge.tradingplatform.exceptions.UserNotFoundException;
 import com.six.challenge.tradingplatform.model.api.v1.security.SecurityInputDto;
 import com.six.challenge.tradingplatform.model.api.v1.security.SecurityOutputDto;
 import com.six.challenge.tradingplatform.model.api.v1.security.SecurityUpdateInputDto;
 import com.six.challenge.tradingplatform.model.database.SecurityDao;
 import com.six.challenge.tradingplatform.repository.SecurityJpaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping(Endpoints.SECURITY_V1)
 class SecurityController {
 
+    Logger logger = LoggerFactory.getLogger(SecurityController.class);
     private final SecurityJpaRepository repository;
 
     SecurityController(SecurityJpaRepository repository) {
@@ -30,14 +35,14 @@ class SecurityController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(Endpoints.FIND_BY_ID)
+    @GetMapping(Endpoints.FIND_BY_ID_WITH_PARAM)
     SecurityOutputDto findById(@PathVariable UUID id) {
         return repository.findById(id).orElseThrow(
                 () -> new SecurityNotFoundException(id))
                 .toDto();
     }
 
-    @GetMapping(Endpoints.FIND_BY_NAME)
+    @GetMapping(Endpoints.FIND_BY_NAME_WITH_PARAM)
     SecurityOutputDto findByName(@PathVariable String name) {
         return repository.findByName(name).orElseThrow(
                         () -> new SecurityNotFoundException(name))
@@ -45,15 +50,24 @@ class SecurityController {
     }
 
     @PostMapping(Endpoints.CREATE)
+    @ResponseStatus(HttpStatus.CREATED)
     SecurityOutputDto create(@RequestBody SecurityInputDto security) {
         return repository.save(security.toDao()).toDto();
     }
 
     @PostMapping(Endpoints.UPDATE)
+    @ResponseStatus(HttpStatus.CREATED)
     SecurityOutputDto update(SecurityUpdateInputDto securityInput) {
         SecurityDao security = repository.findById(securityInput.getId()).orElseThrow(
                 () -> new SecurityNotFoundException(securityInput.getId()));
         security.setName(securityInput.getName());
         return repository.save(security).toDto();
+    }
+
+    @DeleteMapping(Endpoints.DELETE_BY_ID)
+    void delete(@PathVariable UUID id) {
+        SecurityDao security = repository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(id));
+        repository.delete(security);
     }
 }

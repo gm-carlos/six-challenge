@@ -2,8 +2,6 @@ package com.six.challenge.tradingplatform.model.api.v1.user;
 
 import com.six.challenge.tradingplatform.model.database.UserDao;
 
-import java.util.UUID;
-
 public class UserInputDto {
 
     private String name;

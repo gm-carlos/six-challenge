@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +22,11 @@ public class UserDao {
     @Column(unique=true)
     private String name;
     private String password;
+    @OneToMany(mappedBy = "user")
+    private List<BuyOrderDao> buyOrders;
+    @OneToMany(mappedBy = "user")
+    private List<SellOrderDao> sellOrders;
+
 
     UserDao() {}
 
@@ -51,6 +57,14 @@ public class UserDao {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<BuyOrderDao> getBuyOrders() {
+        return buyOrders;
+    }
+
+    public List<SellOrderDao> getSellOrders() {
+        return sellOrders;
     }
 
     public UserOutputDto toDto() {

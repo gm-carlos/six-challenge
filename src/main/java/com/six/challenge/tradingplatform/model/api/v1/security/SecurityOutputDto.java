@@ -7,6 +7,9 @@ public class SecurityOutputDto {
     private UUID id;
     private String name;
 
+    SecurityOutputDto() {
+    }
+
     public SecurityOutputDto(UUID id, String name) {
         this.id = id;
         this.name = name;

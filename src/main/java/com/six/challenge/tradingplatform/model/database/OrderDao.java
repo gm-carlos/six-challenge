@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -18,8 +19,12 @@ public abstract class OrderDao {
     @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;
-    private UUID userId;
-    private UUID securityId;
+    @ManyToOne
+    @JoinColumn(name="userId", nullable=false)
+    private UserDao user;
+    @ManyToOne
+    @JoinColumn(name="securityId", nullable=false)
+    private SecurityDao security;
     private boolean fulfilled;
     @Positive(message = "The value must be positive")
     private Double price;
@@ -27,37 +32,40 @@ public abstract class OrderDao {
     private Long quantity;
     private Long currentQuantity;
     private OrderType type;
+    private Date createdAt;
+
 
     public OrderDao() {}
 
-    public OrderDao(UUID userId, UUID securityId, Double price, Long quantity, OrderType type) {
-        this.userId = userId;
-        this.securityId = securityId;
+    public OrderDao(UserDao user, SecurityDao security, Double price, Long quantity, OrderType type) {
+        this.user = user;
+        this.security = security;
         this.fulfilled = false;
         this.price = price;
         this.quantity = quantity;
         this.currentQuantity = quantity;
         this.type = type;
+        this.createdAt = new Date();
     }
 
     public UUID getId() {
         return id;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UserDao getUser() {
+        return user;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setUserId(UserDao userId) {
+        this.user = user;
     }
 
-    public UUID getSecurityId() {
-        return securityId;
+    public SecurityDao getSecurity() {
+        return security;
     }
 
-    public void setSecurityId(UUID securityId) {
-        this.securityId = securityId;
+    public void setSecurityId(SecurityDao security) {
+        this.security = security;
     }
 
     public boolean isFulfilled() {
@@ -100,11 +108,15 @@ public abstract class OrderDao {
         this.currentQuantity = currentQuantity;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
     public OrderOutputDto toDto() {
         return new OrderOutputDto(
                 this.getId(),
-                this.getUserId(),
-                this.getSecurityId(),
+                this.getUser().getId(),
+                this.getSecurity().getId(),
                 this.isFulfilled(),
                 this.getPrice(),
                 this.getQuantity(),
