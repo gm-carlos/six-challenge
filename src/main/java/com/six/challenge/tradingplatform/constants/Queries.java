@@ -9,5 +9,12 @@ public class Queries {
 
     // Security
     public static final String FIND_SECURITY_BY_NAME
-            = "SELECT * FROM " + Tables.SECURITY + " u WHERE u.name = :name";
+            = "SELECT * FROM " + Tables.SECURITY + " s WHERE s.name = :name";
+
+    // Orders
+    public static final String FIND_MATCHING_SELL_ORDERS
+            = "SELECT * FROM " + Tables.ORDER + " o WHERE o.user_id != :userId AND o.type = 'SELL' AND o.price <= :price";
+
+    public static final String FIND_MATCHING_BUY_ORDERS
+            = "SELECT * FROM " + Tables.ORDER + " o WHERE o.user_id != :userId AND o.type = 'BUY' AND o.price >= :price";
 }

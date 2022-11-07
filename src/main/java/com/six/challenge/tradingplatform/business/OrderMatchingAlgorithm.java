@@ -1,10 +1,10 @@
 package com.six.challenge.tradingplatform.business;
 
-import com.six.challenge.tradingplatform.model.database.BuyOrderDao;
-import com.six.challenge.tradingplatform.model.database.SellOrderDao;
+import com.six.challenge.tradingplatform.model.TradeResult;
+import com.six.challenge.tradingplatform.model.database.OrderDao;
 
 import java.util.List;
 
 public interface OrderMatchingAlgorithm {
-    void executeOrders(List<BuyOrderDao> buyOrders, List<SellOrderDao> sellOrders);
+    TradeResult executeOrder(OrderDao currentOrder, List<OrderDao> matchingOrders);
 }

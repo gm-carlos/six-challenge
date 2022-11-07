@@ -1,5 +1,6 @@
 package com.six.challenge.tradingplatform.model.database;
 
+import com.six.challenge.tradingplatform.constants.Tables;
 import com.six.challenge.tradingplatform.model.api.v1.order.OrderOutputDto;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -10,14 +11,13 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
-public abstract class OrderDao {
+@Table(name = Tables.ORDER)
+public class OrderDao {
 
     @Id
-    @GeneratedValue(generator = "uuid4")
-    @GenericGenerator(name = "UUID", strategy = "uuid4")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(columnDefinition = "CHAR(36)")
+    @GeneratedValue(generator = "uuid2", strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type="uuid-char")
     private UUID id;
     @ManyToOne
     @JoinColumn(name="userId", nullable=false)
@@ -31,6 +31,7 @@ public abstract class OrderDao {
     @Positive(message = "The value must be positive")
     private Long quantity;
     private Long currentQuantity;
+    @Enumerated(EnumType.STRING)
     private OrderType type;
     private Date createdAt;
 
@@ -50,6 +51,10 @@ public abstract class OrderDao {
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UserDao getUser() {
@@ -92,11 +97,11 @@ public abstract class OrderDao {
         this.quantity = quantity;
     }
 
-    protected OrderType getType() {
+    public OrderType getType() {
         return type;
     }
 
-    protected void setType(OrderType type) {
+    public void setType(OrderType type) {
         this.type = type;
     }
 

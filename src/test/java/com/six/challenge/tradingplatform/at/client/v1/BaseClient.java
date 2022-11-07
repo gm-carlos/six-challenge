@@ -1,9 +1,9 @@
-package com.six.challenge.tradingplatform.cucumber.client.v1;
+package com.six.challenge.tradingplatform.at.client.v1;
 
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.six.challenge.tradingplatform.controller.v1.OrderController;
-import com.six.challenge.tradingplatform.cucumber.client.v1.model.HTTPResponse;
-import com.six.challenge.tradingplatform.cucumber.client.v1.model.HTTPResponseList;
+import com.six.challenge.tradingplatform.at.client.v1.model.HTTPResponse;
+import com.six.challenge.tradingplatform.at.client.v1.model.HTTPResponseList;
 import org.asynchttpclient.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

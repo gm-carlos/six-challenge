@@ -1,4 +1,4 @@
-package com.six.challenge.tradingplatform.cucumber;
+package com.six.challenge.tradingplatform.at;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;

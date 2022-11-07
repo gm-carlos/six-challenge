@@ -1,6 +1,6 @@
-package com.six.challenge.tradingplatform.cucumber;
+package com.six.challenge.tradingplatform.at;
 
-import com.six.challenge.tradingplatform.cucumber.client.v1.TradingClient;
+import com.six.challenge.tradingplatform.at.client.v1.TradingClient;
 
 public class StepProperties {
 

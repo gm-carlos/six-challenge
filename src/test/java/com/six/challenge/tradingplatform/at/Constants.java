@@ -1,4 +1,4 @@
-package com.six.challenge.tradingplatform.cucumber;
+package com.six.challenge.tradingplatform.at;
 
 public class Constants {
 

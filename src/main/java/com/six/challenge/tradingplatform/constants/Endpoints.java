@@ -28,13 +28,5 @@ public class Endpoints {
 
     // ORDER
     private static final String ORDER = "/order";
-    private static final String BUY =  "/buy";
-    private static final String SELL =  "/sell";
     public static final String ORDER_V1 =  V1 + ORDER;
-    public static final String FIND_BUY_ORDER_BY_ID = BUY + FIND_BY_ID_WITH_PARAM;
-    public static final String FIND_SELL_ORDER_BY_ID = SELL + FIND_BY_ID_WITH_PARAM;
-    public static final String FIND_ALL_BUY_ORDER = BUY + FIND_ALL;
-    public static final String FIND_ALL_SELL_ORDER = SELL + FIND_ALL;
-    public static final String EXECUTE_ORDERS = "/execute";
-
 }

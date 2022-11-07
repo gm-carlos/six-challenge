@@ -1,4 +1,4 @@
-package com.six.challenge.tradingplatform.cucumber.client.v1.model;
+package com.six.challenge.tradingplatform.at.client.v1.model;
 
 import java.util.List;
 

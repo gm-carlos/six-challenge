@@ -13,10 +13,9 @@ import java.util.UUID;
 public class TradeDao {
 
     @Id
-    @GeneratedValue(generator = "uuid4")
-    @GenericGenerator(name = "UUID", strategy = "uuid4")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(columnDefinition = "CHAR(36)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type="uuid-char")
     private UUID id;
     private UUID sellOrderId;
     private UUID buyOrderId;

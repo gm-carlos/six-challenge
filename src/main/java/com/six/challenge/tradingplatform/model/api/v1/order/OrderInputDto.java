@@ -63,13 +63,8 @@ public class OrderInputDto {
         this.type = type;
     }
 
-    public BuyOrderDao toBuyOrderDao(UserDao user, SecurityDao security) {
-        return new BuyOrderDao(
-                user, security, this.getPrice(), this.getQuantity());
-    }
-
-    public SellOrderDao toSellOrderDao(UserDao user, SecurityDao security) {
-        return new SellOrderDao(
-                user, security, this.getPrice(), this.getQuantity());
+    public OrderDao toOrderDao(UserDao user, SecurityDao security) {
+        return new OrderDao(user, security, this.getPrice(),
+                this.getQuantity(), this.getType());
     }
 }

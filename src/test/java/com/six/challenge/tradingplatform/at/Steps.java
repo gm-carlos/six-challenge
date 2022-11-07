@@ -1,7 +1,7 @@
-package com.six.challenge.tradingplatform.cucumber;
+package com.six.challenge.tradingplatform.at;
 
-import com.six.challenge.tradingplatform.cucumber.client.v1.TradingClient;
-import com.six.challenge.tradingplatform.cucumber.client.v1.model.HTTPResponse;
+import com.six.challenge.tradingplatform.at.client.v1.TradingClient;
+import com.six.challenge.tradingplatform.at.client.v1.model.HTTPResponse;
 import com.six.challenge.tradingplatform.model.api.v1.security.SecurityOutputDto;
 import com.six.challenge.tradingplatform.model.api.v1.user.UserOutputDto;
 import io.cucumber.java.en.Given;

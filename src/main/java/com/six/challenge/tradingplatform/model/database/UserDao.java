@@ -14,19 +14,15 @@ import java.util.UUID;
 public class UserDao {
 
     @Id
-    @GeneratedValue(generator = "uuid4")
-    @GenericGenerator(name = "UUID", strategy = "uuid4")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(columnDefinition = "CHAR(36)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type="uuid-char")
     private UUID id;
     @Column(unique=true)
     private String name;
     private String password;
     @OneToMany(mappedBy = "user")
-    private List<BuyOrderDao> buyOrders;
-    @OneToMany(mappedBy = "user")
-    private List<SellOrderDao> sellOrders;
-
+    private List<OrderDao> orders;
 
     UserDao() {}
 
@@ -59,13 +55,10 @@ public class UserDao {
         this.password = password;
     }
 
-    public List<BuyOrderDao> getBuyOrders() {
-        return buyOrders;
+    public List<OrderDao> getOrders() {
+        return orders;
     }
 
-    public List<SellOrderDao> getSellOrders() {
-        return sellOrders;
-    }
 
     public UserOutputDto toDto() {
         return new UserOutputDto(this.getId(), this.getName());

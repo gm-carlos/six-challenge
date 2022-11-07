@@ -14,17 +14,14 @@ import java.util.UUID;
 public class SecurityDao {
 
     @Id
-    @GeneratedValue(generator = "uuid4")
-    @GenericGenerator(name = "UUID", strategy = "uuid4")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(columnDefinition = "CHAR(36)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type="uuid-char")
     private UUID id;
     @Column(unique=true)
     private String name;
     @OneToMany(mappedBy = "security")
-    private List<BuyOrderDao> buyOrders;
-    @OneToMany(mappedBy = "security")
-    private List<SellOrderDao> sellOrders;
+    private List<OrderDao> orders;
 
     SecurityDao() {}
 

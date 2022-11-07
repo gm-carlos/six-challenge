@@ -1,7 +1,7 @@
-package com.six.challenge.tradingplatform.cucumber.client.v1;
+package com.six.challenge.tradingplatform.at.client.v1;
 
 import com.six.challenge.tradingplatform.constants.Endpoints;
-import com.six.challenge.tradingplatform.cucumber.client.v1.model.HTTPResponse;
+import com.six.challenge.tradingplatform.at.client.v1.model.HTTPResponse;
 import com.six.challenge.tradingplatform.model.api.v1.security.SecurityInputDto;
 import com.six.challenge.tradingplatform.model.api.v1.security.SecurityOutputDto;
 import com.six.challenge.tradingplatform.model.api.v1.user.UserInputDto;
