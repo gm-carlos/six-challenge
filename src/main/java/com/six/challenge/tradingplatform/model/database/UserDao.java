@@ -59,8 +59,15 @@ public class UserDao {
         return orders;
     }
 
-
     public UserOutputDto toDto() {
         return new UserOutputDto(this.getId(), this.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "UserDao{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

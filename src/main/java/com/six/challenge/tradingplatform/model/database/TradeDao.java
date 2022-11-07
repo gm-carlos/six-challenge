@@ -17,15 +17,19 @@ public class TradeDao {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Type(type="uuid-char")
     private UUID id;
-    private UUID sellOrderId;
-    private UUID buyOrderId;
+    @ManyToOne
+    @JoinColumn(name="sellOrderId", nullable=false)
+    private OrderDao sellOrder;
+    @ManyToOne
+    @JoinColumn(name="buyOrderId", nullable=false)
+    private OrderDao buyOrder;
     private Double price;
     private Long quantity;
     private Date createdAt;
 
-    public TradeDao(UUID sellOrderId, UUID buyOrderId, Double price, Long quantity) {
-        this.sellOrderId = sellOrderId;
-        this.buyOrderId = buyOrderId;
+    public TradeDao(OrderDao sellOrder, OrderDao buyOrder, Double price, Long quantity) {
+        this.sellOrder = sellOrder;
+        this.buyOrder = buyOrder;
         this.price = price;
         this.quantity = quantity;
         this.createdAt = new Date();
@@ -39,20 +43,20 @@ public class TradeDao {
         this.id = id;
     }
 
-    public UUID getSellOrderId() {
-        return sellOrderId;
+    public OrderDao getSellOrderId() {
+        return sellOrder;
     }
 
-    public void setSellOrderId(UUID sellOrderId) {
-        this.sellOrderId = sellOrderId;
+    public void setSellOrderId(OrderDao sellOrder) {
+        this.sellOrder = sellOrder;
     }
 
-    public UUID getBuyOrderId() {
-        return buyOrderId;
+    public OrderDao getBuyOrderId() {
+        return buyOrder;
     }
 
-    public void setBuyOrderId(UUID buyOrderId) {
-        this.buyOrderId = buyOrderId;
+    public void setBuyOrderId(OrderDao buyOrder) {
+        this.buyOrder = buyOrder;
     }
 
     public Double getPrice() {
@@ -73,5 +77,17 @@ public class TradeDao {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "TradeDao{" +
+                "id=" + id +
+                ", sellOrderId=" + sellOrder.getId() +
+                ", buyOrderId=" + buyOrder.getId() +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

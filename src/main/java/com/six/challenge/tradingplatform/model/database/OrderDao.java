@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -34,6 +35,10 @@ public class OrderDao {
     @Enumerated(EnumType.STRING)
     private OrderType type;
     private Date createdAt;
+    @OneToMany(mappedBy = "sellOrder")
+    private List<OrderDao> sellTrades;
+    @OneToMany(mappedBy = "buyOrder")
+    private List<OrderDao> buyTrades;
 
 
     public OrderDao() {}
@@ -127,5 +132,20 @@ public class OrderDao {
                 this.getQuantity(),
                 this.getCurrentQuantity(),
                 this.getType());
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDao{" +
+                "id=" + id +
+                ", user=" + user +
+                ", security=" + security +
+                ", fulfilled=" + fulfilled +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", currentQuantity=" + currentQuantity +
+                ", type=" + type +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

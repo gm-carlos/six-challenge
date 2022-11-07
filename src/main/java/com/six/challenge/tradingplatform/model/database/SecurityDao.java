@@ -50,4 +50,12 @@ public class SecurityDao {
             this.getId(), this.getName()
         );
     }
+
+    @Override
+    public String toString() {
+        return "SecurityDao{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
