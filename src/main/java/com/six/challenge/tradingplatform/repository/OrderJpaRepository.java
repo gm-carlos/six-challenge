@@ -16,6 +16,7 @@ public interface OrderJpaRepository extends JpaRepository<OrderDao, UUID> {
             nativeQuery = true
     )
     List<OrderDao> findAllMatchingSellOrders(@Param("userId") String userId,
+                                             @Param("securityId") String securityId,
                                              @Param("price") Double price);
 
     @Query(
@@ -23,6 +24,7 @@ public interface OrderJpaRepository extends JpaRepository<OrderDao, UUID> {
             nativeQuery = true
     )
     List<OrderDao> findAllMatchingBuyOrders(@Param("userId") String userId,
+                                            @Param("securityId") String securityId,
                                             @Param("price") Double price);
 
 }

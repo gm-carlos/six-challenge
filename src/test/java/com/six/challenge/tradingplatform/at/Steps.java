@@ -16,10 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Steps {
 
@@ -28,6 +30,11 @@ public class Steps {
     StepProperties props;
     public Steps(StepProperties props) {
         this.props = props;
+    }
+
+    @BeforeTest
+    public void cleanProperties() {
+        props.cleanOrderIds();
     }
 
     @Given("^a trading platform running at host (.*) and port (.*)$")
@@ -61,9 +68,7 @@ public class Steps {
         TradingClient client = StepProperties.getClientInstance();
 
         HTTPResponse<SecurityOutputDto> findSecurityResponse = client.findSecurityByName(securityName);
-        logger.info("Security status " + findSecurityResponse.getStatus());
         if(findSecurityResponse.getStatus() == HttpStatus.NOT_FOUND) {
-            logger.info("Security " + securityName + " not found, creating...");
             HTTPResponse<SecurityOutputDto> securityResponse = client.createSecurity(securityName);
             Assert.assertEquals(securityResponse.getStatus(), HttpStatus.CREATED);
         }
@@ -85,6 +90,7 @@ public class Steps {
                 quantity,
                 Objects.equals(buyOrSell, "buy") ? OrderType.BUY : OrderType.SELL);
         Assert.assertEquals(orderResponse.getStatus(), HttpStatus.CREATED);
+        props.addOrderId(orderResponse.getResponseObject().getId().toString());
     }
 
     @Then("^a trade occurs with the price of \"(.*)\" and quantity of \"(.*)\"$")
@@ -96,6 +102,20 @@ public class Steps {
         TradeOutputDto trade = trades.get(0);
         Assert.assertEquals(trade.getPrice(), price);
         Assert.assertEquals(trade.getQuantity(), quantity);
+    }
+
+    @Then("^a trade for sell order \"(.*)\" and buy order \"(.*)\" occurs with the price of \"(.*)\" and quantity of \"(.*)\"$")
+    public void findSpecificTrade(int sellOrderIndex, int buyOrderIndex, Double price, Long quantity) throws Throwable {
+        TradingClient client = StepProperties.getClientInstance();
+        HTTPResponseList<TradeOutputDto> tradesResponse = client.findAllTrades();
+        List<TradeOutputDto> allTrades = tradesResponse.getResponseObjectList();
+
+        List<TradeOutputDto> trades = allTrades.stream().filter(t ->
+                Objects.equals(t.getSellOrderId().toString(), props.getOrderId(sellOrderIndex)) &&
+                Objects.equals(t.getBuyOrderId().toString(), props.getOrderId(buyOrderIndex)) &&
+                Objects.equals(t.getPrice(), price) &&
+                Objects.equals(t.getQuantity(), quantity)).collect(Collectors.toList());
+        Assert.assertEquals(trades.size(), 1);
     }
 
 }

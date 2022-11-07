@@ -2,6 +2,9 @@ package com.six.challenge.tradingplatform.at;
 
 import com.six.challenge.tradingplatform.at.client.v1.TradingClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StepProperties {
 
     private static TradingClient CLIENT;
@@ -13,5 +16,19 @@ public class StepProperties {
             CLIENT = new TradingClient(HOST, PORT);
         }
         return CLIENT;
+    }
+
+    private List<String> orderIds = new ArrayList<>();
+
+    public void cleanOrderIds() {
+        orderIds.clear();
+    }
+
+    public void addOrderId(String id) {
+        orderIds.add(id);
+    }
+
+    public String getOrderId(int index) {
+        return orderIds.get(index);
     }
 }

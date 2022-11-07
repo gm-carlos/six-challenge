@@ -89,8 +89,10 @@ public class OrderController {
 
             // Get matching orders
             List<OrderDao> matchingOrders = order.getType() == OrderType.BUY ?
-                    orderRepository.findAllMatchingSellOrders(order.getUser().getId().toString(), order.getPrice()) :
-                    orderRepository.findAllMatchingBuyOrders(order.getUser().getId().toString(), order.getPrice());
+                    orderRepository.findAllMatchingSellOrders(order.getUser().getId().toString(),
+                            order.getSecurity().getId().toString(), order.getPrice()) :
+                    orderRepository.findAllMatchingBuyOrders(order.getUser().getId().toString(),
+                            order.getSecurity().getId().toString(), order.getPrice());
             TradeResult result = algorithm.executeOrder(order, matchingOrders);
             result.getOrders().forEach(orderRepository::save);
             result.getTrades().forEach(tradeJpaRepository::save);

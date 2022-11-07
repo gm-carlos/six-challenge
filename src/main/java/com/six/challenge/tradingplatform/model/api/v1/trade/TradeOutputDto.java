@@ -60,4 +60,15 @@ public class TradeOutputDto {
     public void setBuyOrderId(UUID buyOrderId) {
         this.buyOrderId = buyOrderId;
     }
+
+    @Override
+    public String toString() {
+        return "TradeOutputDto{" +
+                "id=" + id +
+                ", sellOrderId=" + sellOrderId +
+                ", buyOrderId=" + buyOrderId +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

@@ -99,4 +99,14 @@ public class TradingClient extends BaseClient {
             return new HTTPResponseList<>();
         }
     }
+
+    public HTTPResponse<OrderOutputDto> findOrderById(String id) {
+        String url = baseUrl.concat(Endpoints.ORDER_V1).concat(Endpoints.FIND_BY_ID).concat("/" + id) ;;
+        try {
+            Response response = get(url);
+            return map(response, OrderOutputDto.class);
+        } catch (Exception e) {
+            return new HTTPResponse<>();
+        }
+    }
 }
