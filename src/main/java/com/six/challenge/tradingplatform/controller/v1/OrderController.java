@@ -10,9 +10,11 @@ import com.six.challenge.tradingplatform.model.api.v1.order.OrderOutputDto;
 import com.six.challenge.tradingplatform.model.database.*;
 import com.six.challenge.tradingplatform.repository.OrderJpaRepository;
 import com.six.challenge.tradingplatform.repository.SecurityJpaRepository;
+import com.six.challenge.tradingplatform.repository.TradeJpaRepository;
 import com.six.challenge.tradingplatform.repository.UserJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolation;
@@ -36,16 +38,19 @@ public class OrderController {
     private final OrderJpaRepository orderRepository;
     private final UserJpaRepository userRepository;
     private final SecurityJpaRepository securityRepository;
+    private final TradeJpaRepository tradeJpaRepository;
 
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private Validator validator = factory.getValidator();
 
     OrderController(OrderJpaRepository orderRepository,
                     UserJpaRepository userRepository,
-                    SecurityJpaRepository securityRepository) {
+                    SecurityJpaRepository securityRepository,
+                    TradeJpaRepository tradeJpaRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.securityRepository = securityRepository;
+        this.tradeJpaRepository = tradeJpaRepository;
     }
 
     @GetMapping(Endpoints.FIND_ALL)
@@ -61,6 +66,7 @@ public class OrderController {
     }
 
     @PostMapping(Endpoints.CREATE)
+    @ResponseStatus(HttpStatus.CREATED)
     OrderOutputDto create(@RequestBody OrderInputDto order) {
 
         UserDao user = userRepository.findById(order.getUserId()).orElseThrow(
@@ -70,7 +76,6 @@ public class OrderController {
         OrderDao dao = order.toOrderDao(user, security);
         validateOrderDao(dao);
         OrderOutputDto orderDto = orderRepository.save(dao).toDto();
-
         executeOrder(dao);
         return orderDto;
     }
@@ -78,12 +83,17 @@ public class OrderController {
     private void executeOrder(OrderDao order) {
         String className = Defaults.ALGORITHM_CLASS;
         try {
+            // Get Algorithm class
             Class<OrderMatchingAlgorithm> clazz = (Class<OrderMatchingAlgorithm>) Class.forName(className);
             OrderMatchingAlgorithm algorithm = clazz.getDeclaredConstructor().newInstance();
+
+            // Get matching orders
             List<OrderDao> matchingOrders = order.getType() == OrderType.BUY ?
                     orderRepository.findAllMatchingSellOrders(order.getUser().getId().toString(), order.getPrice()) :
                     orderRepository.findAllMatchingBuyOrders(order.getUser().getId().toString(), order.getPrice());
             TradeResult result = algorithm.executeOrder(order, matchingOrders);
+            result.getOrders().forEach(orderRepository::save);
+            result.getTrades().forEach(tradeJpaRepository::save);
         } catch (ClassNotFoundException exception) {
             throw new AlgorithmNotFoundException(className);
         } catch (InvocationTargetException | InstantiationException | NoSuchMethodException |
@@ -94,7 +104,6 @@ public class OrderController {
 
     private void validateOrderDao(OrderDao dao) {
         Set<ConstraintViolation<OrderDao>> violations = validator.validate(dao);
-        ;
         if (violations.size() > 0) {
             List<String> errors = new ArrayList<String>();
             for (ConstraintViolation<OrderDao> violation : violations) {

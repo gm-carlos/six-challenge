@@ -36,9 +36,9 @@ public class OrderDao {
     private OrderType type;
     private Date createdAt;
     @OneToMany(mappedBy = "sellOrder")
-    private List<OrderDao> sellTrades;
+    private List<TradeDao> sellTrades;
     @OneToMany(mappedBy = "buyOrder")
-    private List<OrderDao> buyTrades;
+    private List<TradeDao> buyTrades;
 
 
     public OrderDao() {}

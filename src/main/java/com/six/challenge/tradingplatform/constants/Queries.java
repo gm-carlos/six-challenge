@@ -13,8 +13,8 @@ public class Queries {
 
     // Orders
     public static final String FIND_MATCHING_SELL_ORDERS
-            = "SELECT * FROM " + Tables.ORDER + " o WHERE o.user_id != :userId AND o.type = 'SELL' AND o.price <= :price";
+            = "SELECT * FROM " + Tables.ORDER + " o WHERE o.user_id != :userId AND o.type = 'SELL' AND o.price <= :price AND o.fulfilled = FALSE";
 
     public static final String FIND_MATCHING_BUY_ORDERS
-            = "SELECT * FROM " + Tables.ORDER + " o WHERE o.user_id != :userId AND o.type = 'BUY' AND o.price >= :price";
+            = "SELECT * FROM " + Tables.ORDER + " o WHERE o.user_id != :userId AND o.type = 'BUY' AND o.price >= :price AND o.fulfilled = FALSE";
 }

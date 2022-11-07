@@ -48,8 +48,10 @@ public class BaseClient {
         } catch (Exception e) {
             logger.warn(e.getMessage());
             logger.warn("Error mapping response to " + type.getCanonicalName() + ". Setting empty...");
-            r = type.getDeclaredConstructor().newInstance();
+            logger.warn("Status code: " + response.getStatusCode());
+            r = null;
         }
+
         httpResponse.setStatus(HttpStatus.resolve(response.getStatusCode()));
         httpResponse.setRawResponse(response.getResponseBody());
         httpResponse.setResponseObject(r);

@@ -7,7 +7,7 @@ public class SecurityOutputDto {
     private UUID id;
     private String name;
 
-    SecurityOutputDto() {
+    public SecurityOutputDto() {
     }
 
     public SecurityOutputDto(UUID id, String name) {

@@ -22,26 +22,29 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
         TradeResult result = new TradeResult();
         // Add current order to result (will be updated)
         result.addOrder(currentOrder);
+
+        // Group orders by price
         Map<Double, List<OrderDao>> matchingOrdersByPrice = matchingOrders.stream()
                 .collect(Collectors.groupingBy(OrderDao::getPrice));
 
         List<Double> prices = new ArrayList<>(matchingOrdersByPrice.keySet());
-        // Start with the highest price or lower price? (Depending on if currentOrder is buy or sell?)
+        // Start with the lowest prices for buy orders and the highest for sell orders
         if (currentOrder.getType() == OrderType.BUY) {
             Collections.sort(prices);
         } else {
             Collections.reverse(prices);
         }
 
-        for(Double price: prices)  {
-            prorata(price, currentOrder, matchingOrdersByPrice.get(price), result);
+        for(Double price: prices) {
+            Double priceApplied = currentOrder.getType() == OrderType.SELL ? currentOrder.getPrice() : price;
+            prorata(priceApplied, currentOrder, matchingOrdersByPrice.get(price), result);
             if (currentOrder.isFulfilled()) {
                 break;
             } else {
                 // call again for residual quantities
                 List<OrderDao> remainingOrders = matchingOrdersByPrice.get(price).stream()
                         .filter(o -> !o.isFulfilled()).collect(Collectors.toList());
-                prorata(price, currentOrder, remainingOrders, result);
+                prorata(priceApplied, currentOrder, remainingOrders, result);
             }
         }
 
@@ -50,12 +53,13 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
 
     private void prorata(Double price, OrderDao currentOrder, List<OrderDao> ordersByPrice, TradeResult result) {
 
+        // Parameters used for prorata algorithm
         List<Long> quantities = ordersByPrice.stream().map(OrderDao::getCurrentQuantity).collect(Collectors.toList());
         Long sumQuantities = quantities.stream().reduce(0L, Long::sum);
         Long initialQuantity = currentOrder.getCurrentQuantity();
 
         for(OrderDao order: ordersByPrice) {
-            logger.debug("Analyzing matching order: " + order.getId() + " with price " + order.getPrice());
+            logger.debug("Analyzing matching order: " + order.getId() + " with price " + price);
             Long prorataQuantity;
             if (sumQuantities > initialQuantity) {
                 Double prorataDouble = (Double.valueOf(initialQuantity) / Double.valueOf(sumQuantities)) * Double.valueOf(order.getCurrentQuantity());
@@ -65,6 +69,7 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
                 prorataQuantity = order.getCurrentQuantity();
                 logger.debug("Direct quantity: " + prorataQuantity);
             }
+            // Update orders
             currentOrder.setCurrentQuantity(currentOrder.getCurrentQuantity() - prorataQuantity);
             currentOrder.setFulfilled(currentOrder.getCurrentQuantity() == 0);
             order.setCurrentQuantity(order.getCurrentQuantity() - prorataQuantity);

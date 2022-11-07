@@ -29,4 +29,8 @@ public class Endpoints {
     // ORDER
     private static final String ORDER = "/order";
     public static final String ORDER_V1 =  V1 + ORDER;
+
+    // Trade
+    private static final String TRADE = "/trade";
+    public static final String TRADE_V1 =  V1 + TRADE;
 }

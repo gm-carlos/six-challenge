@@ -38,6 +38,26 @@ public class ProRataAlgorithmTest {
     }
 
     @Test
+    public void testOneBuyOneSell() {
+        // One buy order and One sell order
+        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 100.0, 100L, OrderType.SELL);
+        currentOrder.setId(UUID.randomUUID());
+        List<OrderDao> matchingOrders = Arrays.asList(
+                new OrderDao(allUsers.get(1), allSecurities.get(0), 101.0, 50L, OrderType.BUY)
+        );
+        matchingOrders.forEach(o -> o.setId(UUID.randomUUID()));
+        List<TradeDao> expectedTrades = Arrays.asList(
+                new TradeDao(currentOrder, matchingOrders.get(0),100.0, 50L)
+        );
+
+        TradeResult result = algorithm.executeOrder(currentOrder, matchingOrders);
+
+        Assert.assertEquals(result.getOrders().size(), 2);
+        Assert.assertEquals(expectedTrades.size(), result.getTrades().size());
+        assertTrades(expectedTrades, result.getTrades());
+    }
+
+    @Test
     public void testMultipleSellLower() {
         // Multiple sell orders with lower price
         OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 12.0, 100L, OrderType.BUY);
@@ -137,7 +157,7 @@ public class ProRataAlgorithmTest {
     @Test
     public void testMultipleBuyLower() {
         // Multiple buy orders with lower price
-        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 12.0, 100L, OrderType.SELL);
+        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 9.0, 100L, OrderType.SELL);
         currentOrder.setId(UUID.randomUUID());
         List<OrderDao> matchingOrders = Arrays.asList(
                 new OrderDao(allUsers.get(1), allSecurities.get(0), 11.0, 40L, OrderType.BUY),
@@ -146,15 +166,13 @@ public class ProRataAlgorithmTest {
         );
         matchingOrders.forEach(o -> o.setId(UUID.randomUUID()));
         List<TradeDao> expectedTrades = Arrays.asList(
-                new TradeDao(currentOrder, matchingOrders.get(0), 11.0, 40L),
-                new TradeDao(currentOrder, matchingOrders.get(1), 10.0, 30L),
-                new TradeDao(currentOrder, matchingOrders.get(2), 10.0, 30L)
+                new TradeDao(currentOrder, matchingOrders.get(0), 9.0, 40L),
+                new TradeDao(currentOrder, matchingOrders.get(1), 9.0, 30L),
+                new TradeDao(currentOrder, matchingOrders.get(2), 9.0, 30L)
         );
 
         TradeResult result = algorithm.executeOrder(currentOrder, matchingOrders);
-        for(TradeDao dao: result.getTrades()) {
-            logger.info(dao.toString());
-        }
+
         Assert.assertEquals(result.getOrders().size(), 4);
         Assert.assertEquals(expectedTrades.size(), result.getTrades().size());
         assertTrades(expectedTrades, result.getTrades());
@@ -163,7 +181,7 @@ public class ProRataAlgorithmTest {
     @Test
     public void testMultipleBuyHigher() {
         // Multiple buy orders with higher price
-        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 12.0, 100L, OrderType.SELL);
+        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 9.0, 100L, OrderType.SELL);
         currentOrder.setId(UUID.randomUUID());
         List<OrderDao> matchingOrders = Arrays.asList(
                 new OrderDao(allUsers.get(1), allSecurities.get(0), 11.0, 40L, OrderType.BUY),
@@ -172,9 +190,9 @@ public class ProRataAlgorithmTest {
         );
         matchingOrders.forEach(o -> o.setId(UUID.randomUUID()));
         List<TradeDao> expectedTrades = Arrays.asList(
-                new TradeDao(currentOrder, matchingOrders.get(0), 11.0, 40L),
-                new TradeDao(currentOrder, matchingOrders.get(1), 11.0, 40L),
-                new TradeDao(currentOrder, matchingOrders.get(2), 10.0, 20L)
+                new TradeDao(currentOrder, matchingOrders.get(0), 9.0, 40L),
+                new TradeDao(currentOrder, matchingOrders.get(1), 9.0, 40L),
+                new TradeDao(currentOrder, matchingOrders.get(2), 9.0, 20L)
         );
 
         TradeResult result = algorithm.executeOrder(currentOrder, matchingOrders);
@@ -187,7 +205,7 @@ public class ProRataAlgorithmTest {
     @Test
     public void testMultipleBuyWithLessThanRequested() {
         // Multiple buy orders with less quantity than requested
-        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 12.0, 150L, OrderType.SELL);
+        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 9.0, 150L, OrderType.SELL);
         currentOrder.setId(UUID.randomUUID());
         List<OrderDao> matchingOrders = Arrays.asList(
                 new OrderDao(allUsers.get(1), allSecurities.get(0), 11.0, 40L, OrderType.BUY),
@@ -196,9 +214,9 @@ public class ProRataAlgorithmTest {
         );
         matchingOrders.forEach(o -> o.setId(UUID.randomUUID()));
         List<TradeDao> expectedTrades = Arrays.asList(
-                new TradeDao(currentOrder, matchingOrders.get(0), 11.0, 40L),
-                new TradeDao(currentOrder, matchingOrders.get(1), 11.0, 40L),
-                new TradeDao( currentOrder, matchingOrders.get(2),11.0, 40L)
+                new TradeDao(currentOrder, matchingOrders.get(0), 9.0, 40L),
+                new TradeDao(currentOrder, matchingOrders.get(1), 9.0, 40L),
+                new TradeDao( currentOrder, matchingOrders.get(2),9.0, 40L)
         );
 
         TradeResult result = algorithm.executeOrder(currentOrder, matchingOrders);
@@ -211,7 +229,7 @@ public class ProRataAlgorithmTest {
     @Test
     public void testMultipleBuyWithResidual() {
         // Multiple buy orders with residual quantity
-        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 12.0, 100L, OrderType.SELL);
+        OrderDao currentOrder = new OrderDao(allUsers.get(0), allSecurities.get(0), 9.0, 100L, OrderType.SELL);
         currentOrder.setId(UUID.randomUUID());
         List<OrderDao> matchingOrders = Arrays.asList(
                 new OrderDao(allUsers.get(1), allSecurities.get(0), 11.0, 40L, OrderType.BUY),
@@ -220,10 +238,10 @@ public class ProRataAlgorithmTest {
         );
         matchingOrders.forEach(o -> o.setId(UUID.randomUUID()));
         List<TradeDao> expectedTrades = Arrays.asList(
-                new TradeDao(currentOrder, matchingOrders.get(0), 11.0, 33L),
-                new TradeDao(currentOrder, matchingOrders.get(1), 11.0, 33L),
-                new TradeDao(currentOrder, matchingOrders.get(2), 11.0, 33L),
-                new TradeDao(currentOrder, matchingOrders.get(0), 11.0, 1L)
+                new TradeDao(currentOrder, matchingOrders.get(0), 9.0, 33L),
+                new TradeDao(currentOrder, matchingOrders.get(1), 9.0, 33L),
+                new TradeDao(currentOrder, matchingOrders.get(2), 9.0, 33L),
+                new TradeDao(currentOrder, matchingOrders.get(0), 9.0, 1L)
         );
 
         TradeResult result = algorithm.executeOrder(currentOrder, matchingOrders);

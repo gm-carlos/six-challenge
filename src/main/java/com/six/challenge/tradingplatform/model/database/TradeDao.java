@@ -1,6 +1,7 @@
 package com.six.challenge.tradingplatform.model.database;
 
 import com.six.challenge.tradingplatform.constants.Tables;
+import com.six.challenge.tradingplatform.model.api.v1.trade.TradeOutputDto;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -34,6 +35,8 @@ public class TradeDao {
         this.quantity = quantity;
         this.createdAt = new Date();
     }
+
+    public TradeDao() {}
 
     public UUID getId() {
         return id;
@@ -77,6 +80,16 @@ public class TradeDao {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public TradeOutputDto toDto() {
+        return new TradeOutputDto(
+                this.id,
+                this.sellOrder.getId(),
+                this.buyOrder.getId(),
+                this.price,
+                this.quantity
+        );
     }
 
     @Override
