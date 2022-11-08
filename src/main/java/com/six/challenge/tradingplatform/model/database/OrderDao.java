@@ -18,13 +18,13 @@ public class OrderDao {
     @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     private UUID id;
     @ManyToOne
-    @JoinColumn(name="userId", nullable=false)
+    @JoinColumn(name = "userId", nullable = false)
     private UserDao user;
     @ManyToOne
-    @JoinColumn(name="securityId", nullable=false)
+    @JoinColumn(name = "securityId", nullable = false)
     private SecurityDao security;
     private boolean fulfilled;
     @Positive(message = "The value must be positive")
@@ -41,7 +41,8 @@ public class OrderDao {
     private List<TradeDao> buyTrades;
 
 
-    public OrderDao() {}
+    public OrderDao() {
+    }
 
     public OrderDao(UserDao user, SecurityDao security, Double price, Long quantity, OrderType type) {
         this.user = user;

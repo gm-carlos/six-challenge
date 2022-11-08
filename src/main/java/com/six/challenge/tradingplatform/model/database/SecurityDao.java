@@ -16,14 +16,15 @@ public class SecurityDao {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     private UUID id;
-    @Column(unique=true)
+    @Column(unique = true)
     private String name;
     @OneToMany(mappedBy = "security")
     private List<OrderDao> orders;
 
-    SecurityDao() {}
+    SecurityDao() {
+    }
 
     public SecurityDao(String name) {
         this.name = name;
@@ -47,7 +48,7 @@ public class SecurityDao {
 
     public SecurityOutputDto toDto() {
         return new SecurityOutputDto(
-            this.getId(), this.getName()
+                this.getId(), this.getName()
         );
     }
 

@@ -5,7 +5,6 @@ import com.six.challenge.tradingplatform.model.TradeResult;
 import com.six.challenge.tradingplatform.model.database.OrderDao;
 import com.six.challenge.tradingplatform.model.database.OrderType;
 import com.six.challenge.tradingplatform.model.database.TradeDao;
-import org.aspectj.weaver.ast.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
             Collections.reverse(prices);
         }
 
-        for(Double price: prices) {
+        for (Double price : prices) {
             Double priceApplied = currentOrder.getType() == OrderType.SELL ? currentOrder.getPrice() : price;
             prorata(priceApplied, currentOrder, matchingOrdersByPrice.get(price), result);
             if (currentOrder.isFulfilled()) {
@@ -58,7 +57,7 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
         Long sumQuantities = quantities.stream().reduce(0L, Long::sum);
         Long initialQuantity = currentOrder.getCurrentQuantity();
 
-        for(OrderDao order: ordersByPrice) {
+        for (OrderDao order : ordersByPrice) {
             logger.debug("Analyzing matching order: " + order.getId() + " with price " + price);
             Long prorataQuantity;
             if (sumQuantities > initialQuantity) {

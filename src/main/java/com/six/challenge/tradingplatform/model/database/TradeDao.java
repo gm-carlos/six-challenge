@@ -16,13 +16,13 @@ public class TradeDao {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     private UUID id;
     @ManyToOne
-    @JoinColumn(name="sellOrderId", nullable=false)
+    @JoinColumn(name = "sellOrderId", nullable = false)
     private OrderDao sellOrder;
     @ManyToOne
-    @JoinColumn(name="buyOrderId", nullable=false)
+    @JoinColumn(name = "buyOrderId", nullable = false)
     private OrderDao buyOrder;
     private Double price;
     private Long quantity;
@@ -36,7 +36,8 @@ public class TradeDao {
         this.createdAt = new Date();
     }
 
-    public TradeDao() {}
+    public TradeDao() {
+    }
 
     public UUID getId() {
         return id;

@@ -12,7 +12,8 @@ public class UserOutputDto {
         this.name = name;
     }
 
-    public UserOutputDto() {}
+    public UserOutputDto() {
+    }
 
     public UUID getId() {
         return id;

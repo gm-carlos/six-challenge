@@ -8,8 +8,9 @@ import java.util.UUID;
 public class SecurityNotFoundException extends ResponseStatusException {
 
     public SecurityNotFoundException(UUID id) {
-        super(HttpStatus.NOT_FOUND,  "Could not find security with id " + id);
+        super(HttpStatus.NOT_FOUND, "Could not find security with id " + id);
     }
+
     public SecurityNotFoundException(String name) {
         super(HttpStatus.NOT_FOUND, "Could not find security with name " + name);
     }

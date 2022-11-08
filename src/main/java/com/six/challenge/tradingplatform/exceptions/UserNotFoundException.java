@@ -10,6 +10,7 @@ public class UserNotFoundException extends ResponseStatusException {
     public UserNotFoundException(UUID id) {
         super(HttpStatus.NOT_FOUND, "Could not find user with id " + id);
     }
+
     public UserNotFoundException(String name) {
         super(HttpStatus.NOT_FOUND, "Could not find user with name " + name);
     }

@@ -28,6 +28,7 @@ public class Steps {
     Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     StepProperties props;
+
     public Steps(StepProperties props) {
         this.props = props;
     }
@@ -57,7 +58,7 @@ public class Steps {
         TradingClient client = StepProperties.getClientInstance();
 
         HTTPResponse<UserOutputDto> findUserResponse = client.findUserByName(userName);
-        if(findUserResponse.getStatus() == HttpStatus.NOT_FOUND) {
+        if (findUserResponse.getStatus() == HttpStatus.NOT_FOUND) {
             HTTPResponse<UserOutputDto> userResponse = client.createUser(userName, password);
             Assert.assertEquals(userResponse.getStatus(), HttpStatus.CREATED);
         }
@@ -68,7 +69,7 @@ public class Steps {
         TradingClient client = StepProperties.getClientInstance();
 
         HTTPResponse<SecurityOutputDto> findSecurityResponse = client.findSecurityByName(securityName);
-        if(findSecurityResponse.getStatus() == HttpStatus.NOT_FOUND) {
+        if (findSecurityResponse.getStatus() == HttpStatus.NOT_FOUND) {
             HTTPResponse<SecurityOutputDto> securityResponse = client.createSecurity(securityName);
             Assert.assertEquals(securityResponse.getStatus(), HttpStatus.CREATED);
         }
@@ -112,9 +113,9 @@ public class Steps {
 
         List<TradeOutputDto> trades = allTrades.stream().filter(t ->
                 Objects.equals(t.getSellOrderId().toString(), props.getOrderId(sellOrderIndex)) &&
-                Objects.equals(t.getBuyOrderId().toString(), props.getOrderId(buyOrderIndex)) &&
-                Objects.equals(t.getPrice(), price) &&
-                Objects.equals(t.getQuantity(), quantity)).collect(Collectors.toList());
+                        Objects.equals(t.getBuyOrderId().toString(), props.getOrderId(buyOrderIndex)) &&
+                        Objects.equals(t.getPrice(), price) &&
+                        Objects.equals(t.getQuantity(), quantity)).collect(Collectors.toList());
         Assert.assertEquals(trades.size(), 1);
     }
 

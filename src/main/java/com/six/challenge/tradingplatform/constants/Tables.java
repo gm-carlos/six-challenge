@@ -6,5 +6,4 @@ public class Tables {
     public static final String SECURITY = "SECURITY";
     public static final String ORDER = "ORDERS";
     public static final String TRADE = "TRADES";
-
 }

@@ -46,7 +46,7 @@ public class ProRataAlgorithmTest {
         );
         matchingOrders.forEach(o -> o.setId(UUID.randomUUID()));
         List<TradeDao> expectedTrades = Arrays.asList(
-                new TradeDao(currentOrder, matchingOrders.get(0),100.0, 50L)
+                new TradeDao(currentOrder, matchingOrders.get(0), 100.0, 50L)
         );
 
         TradeResult result = algorithm.executeOrder(currentOrder, matchingOrders);
@@ -215,7 +215,7 @@ public class ProRataAlgorithmTest {
         List<TradeDao> expectedTrades = Arrays.asList(
                 new TradeDao(currentOrder, matchingOrders.get(0), 9.0, 40L),
                 new TradeDao(currentOrder, matchingOrders.get(1), 9.0, 40L),
-                new TradeDao( currentOrder, matchingOrders.get(2),9.0, 40L)
+                new TradeDao(currentOrder, matchingOrders.get(2), 9.0, 40L)
         );
 
         TradeResult result = algorithm.executeOrder(currentOrder, matchingOrders);
@@ -252,15 +252,14 @@ public class ProRataAlgorithmTest {
 
 
     private void assertTrades(List<TradeDao> expected, Set<TradeDao> result) {
-        for(TradeDao trade: expected) {
+        for (TradeDao trade : expected) {
             List<TradeDao> tradesFound = result.stream().filter(t -> (
                     trade.getBuyOrderId() == t.getBuyOrderId() &&
-                    trade.getSellOrderId() == t.getSellOrderId() &&
-                    Objects.equals(trade.getPrice(), t.getPrice()) &&
-                    Objects.equals(trade.getQuantity(), t.getQuantity())
+                            trade.getSellOrderId() == t.getSellOrderId() &&
+                            Objects.equals(trade.getPrice(), t.getPrice()) &&
+                            Objects.equals(trade.getQuantity(), t.getQuantity())
             )).collect(Collectors.toList());
             Assert.assertFalse(tradesFound.stream().count() == 0);
         }
     }
-
 }

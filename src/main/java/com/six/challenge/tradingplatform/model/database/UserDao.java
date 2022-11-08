@@ -16,15 +16,16 @@ public class UserDao {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     private UUID id;
-    @Column(unique=true)
+    @Column(unique = true)
     private String name;
     private String password;
     @OneToMany(mappedBy = "user")
     private List<OrderDao> orders;
 
-    UserDao() {}
+    UserDao() {
+    }
 
     public UserDao(String name, String password) {
         this.name = name;

@@ -27,7 +27,8 @@ public class OrderOutputDto {
         this.type = type;
     }
 
-    public OrderOutputDto() {}
+    public OrderOutputDto() {
+    }
 
     public UUID getId() {
         return id;

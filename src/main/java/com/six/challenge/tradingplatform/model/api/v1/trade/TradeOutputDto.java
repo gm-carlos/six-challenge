@@ -10,7 +10,7 @@ public class TradeOutputDto {
     private Double price;
     private Long quantity;
 
-    public TradeOutputDto(UUID id, UUID sellOrderId, UUID buyOrderId,Double price, Long quantity) {
+    public TradeOutputDto(UUID id, UUID sellOrderId, UUID buyOrderId, Double price, Long quantity) {
         this.id = id;
         this.sellOrderId = sellOrderId;
         this.buyOrderId = buyOrderId;
@@ -19,7 +19,8 @@ public class TradeOutputDto {
 
     }
 
-    public TradeOutputDto() {}
+    public TradeOutputDto() {
+    }
 
     public UUID getId() {
         return id;

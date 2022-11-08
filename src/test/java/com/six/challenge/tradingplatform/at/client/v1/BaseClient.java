@@ -25,6 +25,7 @@ public class BaseClient {
     protected ObjectMapper mapper = new ObjectMapper();
     private String url;
     private String port;
+
     protected BaseClient(String url, String port) {
         this.client = Dsl.asyncHttpClient(Dsl.config().
                 setUseInsecureTrustManager(true).setKeepAlive(false).build());
@@ -68,7 +69,7 @@ public class BaseClient {
         } catch (Exception e) {
             logger.warn(e.getMessage());
             logger.warn("Error mapping response to " + type.getCanonicalName() + ". Setting empty...");
-            r =  new ArrayList<>();
+            r = new ArrayList<>();
         }
 
         rList.setResponseObjectList(r);

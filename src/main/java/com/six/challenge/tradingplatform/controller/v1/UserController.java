@@ -68,5 +68,4 @@ class UserController {
                 () -> new UserNotFoundException(id));
         repository.delete(user);
     }
-
 }

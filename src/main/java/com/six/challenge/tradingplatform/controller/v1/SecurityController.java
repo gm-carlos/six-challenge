@@ -38,7 +38,7 @@ class SecurityController {
     @GetMapping(Endpoints.FIND_BY_ID_WITH_PARAM)
     SecurityOutputDto findById(@PathVariable UUID id) {
         return repository.findById(id).orElseThrow(
-                () -> new SecurityNotFoundException(id))
+                        () -> new SecurityNotFoundException(id))
                 .toDto();
     }
 
