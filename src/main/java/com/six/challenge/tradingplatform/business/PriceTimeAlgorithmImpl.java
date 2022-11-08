@@ -12,13 +12,11 @@ public class PriceTimeAlgorithmImpl implements OrderMatchingAlgorithm {
 
     Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-
     @Override
     public TradeResult executeOrder(OrderDao currentOrder, List<OrderDao> matchingOrders) {
-        logger.info("Execute Price/Time Algorithm for order: " + currentOrder.getId().toString());
+        logger.warn("Price/Time Algorithm not implemented");
+        // TODO - Implement this method
         TradeResult result = new TradeResult();
-
-
         return result;
     }
 }

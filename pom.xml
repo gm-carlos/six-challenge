@@ -21,6 +21,7 @@
 		<cucumber-testng.version>7.8.1</cucumber-testng.version>
 		<cucumber-picocontainer.version>7.8.1</cucumber-picocontainer.version>
 		<async-http-client.version>2.12.3</async-http-client.version>
+		<maven-surefire.version>3.0.0-M7</maven-surefire.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -45,11 +46,6 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-validator.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.cucumber</groupId>
@@ -82,6 +78,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire.version}</version>
 			</plugin>
 		</plugins>
 	</build>

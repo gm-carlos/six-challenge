@@ -3,7 +3,6 @@ package com.six.challenge.tradingplatform.ut.algorithms;
 import com.six.challenge.tradingplatform.business.ProRataAlgorithmImpl;
 import com.six.challenge.tradingplatform.model.TradeResult;
 import com.six.challenge.tradingplatform.model.database.*;
-import org.junit.jupiter.api.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
