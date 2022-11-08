@@ -67,4 +67,15 @@ public class OrderInputDto {
         return new OrderDao(user, security, this.getPrice(),
                 this.getQuantity(), this.getType());
     }
+
+    @Override
+    public String toString() {
+        return "OrderInputDto{" +
+                "userId=" + userId +
+                ", securityId=" + securityId +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", type=" + type +
+                '}';
+    }
 }

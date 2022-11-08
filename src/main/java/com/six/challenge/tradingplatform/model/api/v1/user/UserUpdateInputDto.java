@@ -43,4 +43,13 @@ public class UserUpdateInputDto {
     public UserDao toDao() {
         return new UserDao(this.getName(), this.getPassword());
     }
+
+    @Override
+    public String toString() {
+        return "UserUpdateInputDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

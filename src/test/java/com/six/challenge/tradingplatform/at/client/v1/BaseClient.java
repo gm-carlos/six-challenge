@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 
 public class BaseClient {
 
-    Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
-    private AsyncHttpClient client;
+    private final AsyncHttpClient client;
     protected ObjectMapper mapper = new ObjectMapper();
     private String url;
     private String port;
@@ -47,9 +47,9 @@ public class BaseClient {
         try {
             r = mapper.readValue(response.getResponseBody(), type);
         } catch (Exception e) {
-            logger.warn(e.getMessage());
-            logger.warn("Error mapping response to " + type.getCanonicalName() + ". Setting empty...");
-            logger.warn("Status code: " + response.getStatusCode());
+            LOGGER.debug(e.getMessage());
+            LOGGER.debug("Error mapping response to " + type.getCanonicalName() + ". Setting empty...");
+            LOGGER.debug("Status code: " + response.getStatusCode());
             r = null;
         }
 
@@ -67,8 +67,9 @@ public class BaseClient {
         try {
             r = mapper.readValue(response.getResponseBody(), t.constructCollectionType(ArrayList.class, type));
         } catch (Exception e) {
-            logger.warn(e.getMessage());
-            logger.warn("Error mapping response to " + type.getCanonicalName() + ". Setting empty...");
+            LOGGER.debug(e.getMessage());
+            LOGGER.debug("Error mapping response to " + type.getCanonicalName() + ". Setting empty...");
+            LOGGER.debug("Status code: " + response.getStatusCode());
             r = new ArrayList<>();
         }
 
@@ -81,7 +82,7 @@ public class BaseClient {
     protected Response get(String endpoint) throws ExecutionException, InterruptedException {
         BoundRequestBuilder request = this.client.prepareGet(endpoint);
         Response response = request.execute().get();
-        logger.debug("GET to " + response.getUri() + ":" + response.getResponseBody());
+        LOGGER.debug("GET to " + response.getUri() + ":" + response.getResponseBody());
         return response;
     }
 
@@ -92,21 +93,21 @@ public class BaseClient {
                 .map(queryParam -> new Param(queryParam.getKey(), queryParam.getValue())).collect(Collectors.toList());
         request = request.setQueryParams(params);
         Response response = request.execute().get();
-        logger.debug("GET to " + response.getUri() + ":" + response.getResponseBody());
+        LOGGER.debug("GET to " + response.getUri() + ":" + response.getResponseBody());
         return response;
     }
 
     protected Response delete(String endpoint) throws ExecutionException, InterruptedException {
         BoundRequestBuilder request = this.client.prepareDelete(endpoint);
         Response response = request.execute().get();
-        logger.debug("DELETE to " + response.getUri() + ":" + response.getResponseBody());
+        LOGGER.debug("DELETE to " + response.getUri() + ":" + response.getResponseBody());
         return response;
     }
 
     protected Response put(String endpoint) throws ExecutionException, InterruptedException {
         BoundRequestBuilder request = this.client.preparePut(endpoint);
         Response response = request.execute().get();
-        logger.debug("PUT to " + response.getUri() + ":" + response.getResponseBody());
+        LOGGER.debug("PUT to " + response.getUri() + ":" + response.getResponseBody());
         return response;
     }
 
@@ -115,7 +116,7 @@ public class BaseClient {
         request = request.setHeader("Content-Type", "application/json; charset=UTF-8");
         request = request.setBody(data);
         Response response = request.execute().get();
-        logger.debug("POST to " + response.getUri() + ":" + response.getResponseBody());
+        LOGGER.debug("POST to " + response.getUri() + ":" + response.getResponseBody());
         return response;
     }
 
@@ -124,7 +125,7 @@ public class BaseClient {
         request = request.setHeader("Content-Type", "application/json; charset=UTF-8");
         request = request.setBody(data);
         Response response = request.execute().get();
-        logger.debug("PUT to " + response.getUri() + ":" + response.getResponseBody());
+        LOGGER.debug("PUT to " + response.getUri() + ":" + response.getResponseBody());
         return response;
     }
 

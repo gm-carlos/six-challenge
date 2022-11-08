@@ -26,7 +26,7 @@ Clone the repository, navigate to the root folder of the project and run:
 
 `mvn clean install`
 
-or we can user the simple Docker image and run:
+or we can use the simple Docker image and run:
 
 `docker build . -t trading:latest`
 
@@ -58,13 +58,16 @@ Or if you want to interact with the application through the API use Swagger:
 - Business application:
   - HTTP API User authentication.
   - User profiles.
+  - Manage remove objects.
   - Implement Price/Time Algorithm.
   - Improve management of HTTP request/responses.
   - Improve data validation.
   - Ability to choose algorithm.
-- Application life cycle:
+- Testing:
   - Implement more unit and integration tests.
   - Integrate with code analysis service (i.e Sonar).
+  - Load Testing.
+- Application life cycle:
   - Integrate with CICD Solution (i.e. Github Actions).
   - Improve Docker image.
   - Apply Semantic Versioning.

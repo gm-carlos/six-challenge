@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping(Endpoints.TRADE_V1)
 class TradeController {
 
-    Logger logger = LoggerFactory.getLogger(TradeController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TradeController.class);
     private final TradeJpaRepository repository;
 
     TradeController(TradeJpaRepository repository) {
@@ -26,6 +26,7 @@ class TradeController {
 
     @GetMapping(Endpoints.FIND_ALL)
     List<TradeOutputDto> findAll() {
+        LOGGER.info(Endpoints.TRADE_V1 + Endpoints.FIND_ALL + " endpoint call");
         return repository.findAll().stream()
                 .map(TradeDao::toDto)
                 .collect(Collectors.toList());
@@ -33,6 +34,7 @@ class TradeController {
 
     @GetMapping(Endpoints.FIND_BY_ID_WITH_PARAM)
     TradeOutputDto findById(@PathVariable UUID id) {
+        LOGGER.info(Endpoints.TRADE_V1 + Endpoints.FIND_BY_ID_WITH_PARAM + " endpoint call with id: " + id);
         return repository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(id)).toDto();
     }

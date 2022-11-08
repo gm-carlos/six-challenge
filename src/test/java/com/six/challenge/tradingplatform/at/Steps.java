@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class Steps {
 
-    Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     StepProperties props;
 

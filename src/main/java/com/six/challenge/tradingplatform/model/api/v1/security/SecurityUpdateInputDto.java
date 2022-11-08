@@ -33,4 +33,12 @@ public class SecurityUpdateInputDto {
     public SecurityDao toDao() {
         return new SecurityDao(this.getName());
     }
+
+    @Override
+    public String toString() {
+        return "SecurityUpdateInputDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

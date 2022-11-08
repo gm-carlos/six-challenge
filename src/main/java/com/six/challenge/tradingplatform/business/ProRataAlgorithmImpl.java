@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
 
-    Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     @Override
     public TradeResult executeOrder(OrderDao currentOrder, List<OrderDao> matchingOrders) {
-        logger.debug("Executing ProRata Algorithm for order " + currentOrder.getId());
+        LOGGER.info("Executing ProRata Algorithm for order " + currentOrder.getId());
         TradeResult result = new TradeResult();
         // Add current order to result (will be updated)
         result.addOrder(currentOrder);
@@ -28,6 +28,7 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
 
         List<Double> prices = new ArrayList<>(matchingOrdersByPrice.keySet());
         // Start with the lowest prices for buy orders and the highest for sell orders
+        // TODO: This operation would be heavy if we get a high number of prices. It should be optimized
         if (currentOrder.getType() == OrderType.BUY) {
             Collections.sort(prices);
         } else {
@@ -40,7 +41,7 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
             if (currentOrder.isFulfilled()) {
                 break;
             } else {
-                // call again for residual quantities
+                // call again for residual quantities with no fulfilled matching orders
                 List<OrderDao> remainingOrders = matchingOrdersByPrice.get(price).stream()
                         .filter(o -> !o.isFulfilled()).collect(Collectors.toList());
                 prorata(priceApplied, currentOrder, remainingOrders, result);
@@ -58,15 +59,15 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
         Long initialQuantity = currentOrder.getCurrentQuantity();
 
         for (OrderDao order : ordersByPrice) {
-            logger.debug("Analyzing matching order: " + order.getId() + " with price " + price);
+            LOGGER.debug("Analyzing matching order: " + order.getId() + " with price " + price);
             Long prorataQuantity;
             if (sumQuantities > initialQuantity) {
                 Double prorataDouble = (Double.valueOf(initialQuantity) / Double.valueOf(sumQuantities)) * Double.valueOf(order.getCurrentQuantity());
                 prorataQuantity = Math.max(prorataDouble.longValue(), 1);
-                logger.debug("Prorata quantity: " + prorataQuantity);
+                LOGGER.debug("Prorata quantity: " + prorataQuantity);
             } else {
                 prorataQuantity = order.getCurrentQuantity();
-                logger.debug("Direct quantity: " + prorataQuantity);
+                LOGGER.debug("Direct quantity: " + prorataQuantity);
             }
             // Update orders
             currentOrder.setCurrentQuantity(currentOrder.getCurrentQuantity() - prorataQuantity);
@@ -83,5 +84,4 @@ public class ProRataAlgorithmImpl implements OrderMatchingAlgorithm {
             if (currentOrder.isFulfilled()) return;
         }
     }
-
 }

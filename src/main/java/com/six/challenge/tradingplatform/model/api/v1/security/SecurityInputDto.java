@@ -24,4 +24,11 @@ public class SecurityInputDto {
     public SecurityDao toDao() {
         return new SecurityDao(this.getName());
     }
+
+    @Override
+    public String toString() {
+        return "SecurityInputDto{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

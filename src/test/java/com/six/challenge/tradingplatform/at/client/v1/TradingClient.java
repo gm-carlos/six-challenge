@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class TradingClient extends BaseClient {
 
-    private String baseUrl;
+    private final String baseUrl;
     public TradingClient(String url, String port) {
         super(url, port);
         baseUrl = "http://".concat(this.getUrl()).concat(":").concat(this.getPort());

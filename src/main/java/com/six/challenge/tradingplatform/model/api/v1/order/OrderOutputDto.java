@@ -1,7 +1,9 @@
 package com.six.challenge.tradingplatform.model.api.v1.order;
 
+import com.six.challenge.tradingplatform.model.api.v1.trade.TradeOutputDto;
 import com.six.challenge.tradingplatform.model.database.OrderType;
 
+import java.util.List;
 import java.util.UUID;
 
 public class OrderOutputDto {
@@ -14,6 +16,7 @@ public class OrderOutputDto {
     private Long quantity;
     private Long currentQuantity;
     private OrderType type;
+    private List<TradeOutputDto> trades;
 
     public OrderOutputDto(UUID id, UUID userId, UUID securityId, boolean fulfilled,
                           Double price, Long quantity, Long currentQuantity, OrderType type) {
@@ -92,5 +95,28 @@ public class OrderOutputDto {
 
     public void setType(OrderType type) {
         this.type = type;
+    }
+
+    public List<TradeOutputDto> getTrades() {
+        return trades;
+    }
+
+    public void setTrades(List<TradeOutputDto> trades) {
+        this.trades = trades;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderOutputDto{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", securityId=" + securityId +
+                ", fulfilled=" + fulfilled +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", currentQuantity=" + currentQuantity +
+                ", type=" + type +
+                ", trades=" + trades +
+                '}';
     }
 }

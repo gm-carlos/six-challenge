@@ -22,6 +22,7 @@
 		<cucumber-picocontainer.version>7.8.1</cucumber-picocontainer.version>
 		<async-http-client.version>2.12.3</async-http-client.version>
 		<maven-surefire.version>3.0.0-M7</maven-surefire.version>
+		<reflections.version>0.10.2</reflections.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -41,6 +42,11 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>${springdoc-openapi-ui.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>${reflections.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>

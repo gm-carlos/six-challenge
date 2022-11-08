@@ -1,6 +1,7 @@
 package com.six.challenge.tradingplatform.business;
 
 import com.six.challenge.tradingplatform.controller.v1.OrderController;
+import com.six.challenge.tradingplatform.exceptions.AlgorithmNotImplementedException;
 import com.six.challenge.tradingplatform.model.TradeResult;
 import com.six.challenge.tradingplatform.model.database.OrderDao;
 import org.slf4j.Logger;
@@ -10,13 +11,12 @@ import java.util.List;
 
 public class PriceTimeAlgorithmImpl implements OrderMatchingAlgorithm {
 
-    Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     @Override
     public TradeResult executeOrder(OrderDao currentOrder, List<OrderDao> matchingOrders) {
-        logger.warn("Price/Time Algorithm not implemented");
+        LOGGER.warn("Price/Time Algorithm not implemented");
         // TODO - Implement this method
-        TradeResult result = new TradeResult();
-        return result;
+        throw new AlgorithmNotImplementedException(this.getClass().getCanonicalName());
     }
 }

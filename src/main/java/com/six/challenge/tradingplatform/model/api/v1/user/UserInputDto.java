@@ -31,4 +31,12 @@ public class UserInputDto {
     public UserDao toDao() {
         return new UserDao(this.getName(), this.getPassword());
     }
+
+    @Override
+    public String toString() {
+        return "UserInputDto{" +
+                "name='" + name + '\'' +
+                ", password='****" + '\'' +
+                '}';
+    }
 }

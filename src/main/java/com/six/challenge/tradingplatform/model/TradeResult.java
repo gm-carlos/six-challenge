@@ -29,4 +29,12 @@ public class TradeResult {
     public Set<TradeDao> getTrades() {
         return trades;
     }
+
+    @Override
+    public String toString() {
+        return "TradeResult{" +
+                "orders=" + orders +
+                ", trades=" + trades +
+                '}';
+    }
 }

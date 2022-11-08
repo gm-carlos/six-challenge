@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping(Endpoints.USER_V1)
 class UserController {
 
-    Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserJpaRepository repository;
 
     UserController(UserJpaRepository repository) {
@@ -29,6 +29,7 @@ class UserController {
 
     @GetMapping(Endpoints.FIND_ALL)
     List<UserOutputDto> findAll() {
+        LOGGER.info(Endpoints.USER_V1 + Endpoints.FIND_ALL + " endpoint call");
         return repository.findAll().stream()
                 .map(UserDao::toDto)
                 .collect(Collectors.toList());
@@ -36,12 +37,14 @@ class UserController {
 
     @GetMapping(Endpoints.FIND_BY_ID_WITH_PARAM)
     UserOutputDto findById(@PathVariable UUID id) {
+        LOGGER.info(Endpoints.USER_V1 + Endpoints.FIND_BY_ID_WITH_PARAM + " endpoint call with id: " + id);
         return repository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(id)).toDto();
     }
 
     @GetMapping(Endpoints.FIND_BY_NAME_WITH_PARAM)
     UserOutputDto findName(@PathVariable String name) {
+        LOGGER.info(Endpoints.USER_V1 + Endpoints.FIND_BY_NAME_WITH_PARAM + " endpoint call with name: " + name);
         return repository.findByName(name).orElseThrow(
                 () -> new UserNotFoundException(name)).toDto();
     }
@@ -49,12 +52,14 @@ class UserController {
     @PostMapping(Endpoints.CREATE)
     @ResponseStatus(HttpStatus.CREATED)
     UserOutputDto create(@RequestBody UserInputDto userInput) {
+        LOGGER.info(Endpoints.USER_V1 + Endpoints.CREATE + " endpoint call with user: " + userInput.toString());
         return repository.save(userInput.toDao()).toDto();
     }
 
     @PostMapping(Endpoints.UPDATE)
     @ResponseStatus(HttpStatus.CREATED)
     UserOutputDto update(UserUpdateInputDto userInput) {
+        LOGGER.info(Endpoints.USER_V1 + Endpoints.UPDATE + " endpoint call with user: " + userInput.toString());
         UserDao user = repository.findById(userInput.getId()).orElseThrow(
                 () -> new UserNotFoundException(userInput.getName()));
         user.setName(userInput.getName());
@@ -64,6 +69,7 @@ class UserController {
 
     @DeleteMapping(Endpoints.DELETE_BY_ID)
     void delete(@PathVariable UUID id) {
+        LOGGER.info(Endpoints.USER_V1 + Endpoints.DELETE_BY_ID + " endpoint call with id: " + id);
         UserDao user = repository.findById(id).orElseThrow(
                 () -> new UserNotFoundException(id));
         repository.delete(user);
