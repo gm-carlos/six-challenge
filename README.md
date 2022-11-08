@@ -61,6 +61,7 @@ Or if you want to interact with the application through the API use Swagger:
   - Implement Price/Time Algorithm.
   - Improve management of HTTP request/responses.
   - Improve data validation.
+  - Ability to choose algorithm.
 - Application life cycle:
   - Implement more unit and integration tests.
   - Integrate with code analysis service (i.e Sonar).
